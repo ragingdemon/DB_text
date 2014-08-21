@@ -12,6 +12,7 @@ class Header
     vector<Campo*> campos;
     int list_offset;
     int datos_offset;
+    int longitud_registro;
 public:
     Header(string nombre, vector<Campo*> campos);
     Header(string direccion); // leer archivo
@@ -23,6 +24,7 @@ public:
     void setList_offset(int value);
     int getDatos_offset() const;
     void setDatos_offset(int value);
+    int getLongitud_registro();
 };
 
 #endif // HEADER_H

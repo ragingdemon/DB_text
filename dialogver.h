@@ -18,6 +18,7 @@ public:
 private:
     Header *header;
     Ui::DialogVer *ui;
+    void llenarTabla(QString path);
 };
 
 #endif // DIALOGVER_H

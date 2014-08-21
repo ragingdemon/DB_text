@@ -20,7 +20,6 @@ Header::Header(string direccion)
     if (archivo.is_open()) {        
         string str;
         while (getline(archivo,str)) {
-            std::cout<<str<<'\n';
             if(str.find("nombre de archivo") != string::npos){
                 nombre_archivo = str.substr(18);
             }else if(str.find("numero de campos") != string::npos){
@@ -39,11 +38,11 @@ Header::Header(string direccion)
 
             }else if(str.find("availlist") != string::npos){
                 datos_offset = archivo.tellg();
-                cout<<"data offset:"<<datos_offset<<'\n';
                 break;
             }
         }
     }
+    archivo.close();
 }
 
 vector<Campo*> Header::getCampos() const
@@ -84,4 +83,13 @@ int Header::getDatos_offset() const
 void Header::setDatos_offset(int value)
 {
     datos_offset = value;
+}
+
+int Header::getLongitud_registro()
+{
+    longitud_registro = 0;
+    for (unsigned int i = 0; i < campos.size(); ++i) {
+        longitud_registro += campos.at(i)->getLongitud();
+    }
+    return longitud_registro;
 }

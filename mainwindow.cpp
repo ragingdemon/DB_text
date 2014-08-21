@@ -32,6 +32,9 @@ void MainWindow::on_pushButton_2_clicked()
         if (!archivo.exists()){
             return;
         }
+        if (archivo.isOpen()) {
+            archivo.close();
+        }
         DialogVer dialog(path,this);
         dialog.exec();
     } catch (...) {
