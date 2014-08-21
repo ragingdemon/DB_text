@@ -16,13 +16,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     dialognuevo.cpp \
     campo.cpp \
-    header.cpp
+    header.cpp \
+    dialogver.cpp
 
 HEADERS  += mainwindow.h \
     dialognuevo.h \
     campo.h \
-    header.h
+    header.h \
+    dialogver.h
 
 FORMS    += mainwindow.ui \
-    dialognuevo.ui
+    dialognuevo.ui \
+    dialogver.ui
 CONFIG += c++11

@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialognuevo.h"
+#include "dialogver.h"
 #include "header.h"
+#include <QFileDialog>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,5 +26,14 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    Header *header = new Header("personas.dat");
+    try {
+        QString path(QFileDialog::getOpenFileName(this,tr("Open Image"), "./", tr("DAT Files (*.dat)")));
+        QFile archivo(path);
+        if (!archivo.exists()){
+            return;
+        }
+        DialogVer dialog(path,this);
+        dialog.exec();
+    } catch (...) {
+    }
 }
