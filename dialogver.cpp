@@ -1,9 +1,11 @@
 #include "dialogver.h"
 #include "ui_dialogver.h"
 #include "campo.h"
+#include "dialogagregar.h"
 #include <QFile>
 #include <QTextStream>
 #include <QTableWidget>
+#include <QInputDialog>
 #include <QDebug>
 #include <vector>
 using std::vector;
@@ -28,6 +30,8 @@ DialogVer::~DialogVer()
 void DialogVer::llenarTabla(QString path)
 {
     QTableWidget* table = ui->tableWidget;
+    while(table->rowCount() > 0)
+        table->removeRow(0);
     vector<Campo*> campos = header->getCampos();
     QStringList encabezados;
     for (unsigned int i = 0; i < campos.size(); ++i) {
@@ -47,7 +51,6 @@ void DialogVer::llenarTabla(QString path)
     int rrn = 0;
     while (!in.atEnd()) {
         QString registro = in.read(longitud_registro);
-        rrn++;
         int offset = 0;
         if (registro.at(0) != '*') {
             rrn_tabla.append(rrn);
@@ -62,7 +65,7 @@ void DialogVer::llenarTabla(QString path)
         }else{
             offset += longitud_registro;
         }
-
+        rrn++;
     }
     if (archivo.isOpen()) {
         archivo.close();
@@ -71,20 +74,39 @@ void DialogVer::llenarTabla(QString path)
 
 bool DialogVer::borrarRegistro(int fila)
 {
+    int longitud_registro = header->getLongitud_registro();
     QFile archivo(path);
     if (!archivo.open(QIODevice::ReadWrite | QIODevice::Text))
         return false;
     QTextStream out(&archivo);
     //leer cabeza del availlist
     out.seek(header->getList_offset());
-    int availlist = out.readLine().trimmed().toInt();
+    int availlist = out.readLine().toInt();
+    int rrn = rrn_tabla.at(fila);
     qDebug()<<"cabeza de availlist: "<<availlist;
-    qDebug()<<"registro a eliminar: "<<rrn_tabla.at(fila);
+    qDebug()<<"registro a eliminar: "<<rrn;
     //reescribir cabeza del availlist
     out.seek(header->getList_offset());
-    QString str;
-    out<<"";
-
+    QString str = QString::number(rrn);
+    if (str.size() < 4) {
+        while (str.size() < 4) {
+            str.append(' ');
+        }
+    }
+    out<<str;
+    //marcar registro como borrado
+    out.seek(header->getDatos_offset() + rrn * longitud_registro);
+    str = "*" + QString::number(availlist);
+    if (str.size() < 5) {
+        while (str.size() < 5) {
+            str.append(' ');
+        }
+    }
+    qDebug()<<"offset del registro a eliminar: "<<out.pos();
+    out<<str;
+    rrn_tabla.removeAt(fila);
+    archivo.close();
+    llenarTabla(path);
     return true;
 }
 
@@ -96,6 +118,15 @@ void DialogVer::on_pushButton_clicked()
     foreach (QModelIndex index, indexList) {
         fila = index.row();
         qDebug()<<"row: "<<fila;
-        borrarRegistro(fila);
+        if (fila < rrn_tabla.size()) {
+            borrarRegistro(fila);
+        }
     }
+}
+
+
+void DialogVer::on_le_agregar_clicked()
+{
+    DialogAgregar dialog(path,this);
+    dialog.exec();
 }

@@ -36,6 +36,19 @@
     <string>Borrar registro</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="le_agregar">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>40</y>
+     <width>80</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>agregar</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

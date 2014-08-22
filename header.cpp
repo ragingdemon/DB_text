@@ -111,7 +111,7 @@ bool Header::crearArchivo()
         out<<QString::fromStdString(campos.at(i)->toString())<<'\n';
     }
     out<<"longitud de registro,"<<getLongitud_registro()<<'\n';
-    out<<"availlist,0   "<<'\n';
+    out<<"availlist,-1  "<<'\n';
     archivo.close();
     return true;
 }

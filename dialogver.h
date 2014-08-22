@@ -18,6 +18,8 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_le_agregar_clicked();
+
 private:
     QString path;
     Header *header;

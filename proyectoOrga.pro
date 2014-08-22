@@ -17,15 +17,18 @@ SOURCES += main.cpp\
     dialognuevo.cpp \
     campo.cpp \
     header.cpp \
-    dialogver.cpp
+    dialogver.cpp \
+    dialogagregar.cpp
 
 HEADERS  += mainwindow.h \
     dialognuevo.h \
     campo.h \
     header.h \
-    dialogver.h
+    dialogver.h \
+    dialogagregar.h
 
 FORMS    += mainwindow.ui \
     dialognuevo.ui \
-    dialogver.ui
+    dialogver.ui \
+    dialogagregar.ui
 CONFIG += c++11
