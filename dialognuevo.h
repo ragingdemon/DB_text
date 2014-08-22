@@ -2,6 +2,9 @@
 #define DIALOGNUEVO_H
 
 #include <QDialog>
+#include <vector>
+#include "campo.h"
+using std::vector;
 
 namespace Ui {
 class dialogNuevo;
@@ -16,10 +19,13 @@ public:
     ~dialogNuevo();
 
 private slots:
-    void on_pushButton_2_clicked();
+    void on_pb_campo_clicked();
+
+    void on_pb_archivo_clicked();
 
 private:
     Ui::dialogNuevo *ui;
+    vector<Campo*> campos;
 };
 
 #endif // DIALOGNUEVO_H

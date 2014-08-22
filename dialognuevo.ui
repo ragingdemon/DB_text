@@ -33,7 +33,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="le_campo"/>
       </item>
      </layout>
     </item>
@@ -95,7 +95,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pb_campo">
       <property name="text">
        <string>Agregar campo</string>
       </property>
@@ -106,7 +106,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="pb_archivo">
    <property name="geometry">
     <rect>
      <x>150</x>
@@ -119,7 +119,7 @@
     <string>Crear</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>80</x>
@@ -137,25 +137,13 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit"/>
+     <widget class="QLineEdit" name="le_archivo"/>
     </item>
    </layout>
   </widget>
-  <zorder>lineEdit</zorder>
-  <zorder>label</zorder>
-  <zorder>label_2</zorder>
-  <zorder>lineEdit_2</zorder>
-  <zorder>label_3</zorder>
-  <zorder>comboBox</zorder>
-  <zorder>label_4</zorder>
-  <zorder>spinBox</zorder>
-  <zorder>checkBox</zorder>
-  <zorder>label_4</zorder>
-  <zorder>pushButton</zorder>
-  <zorder>listView</zorder>
-  <zorder></zorder>
   <zorder>layoutWidget</zorder>
-  <zorder>pushButton_2</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>pb_archivo</zorder>
  </widget>
  <resources/>
  <connections/>

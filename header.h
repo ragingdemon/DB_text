@@ -2,22 +2,21 @@
 #define HEADER_H
 
 #include "campo.h"
-#include <string>
+#include <QString>
 #include <vector>
-using std::string;
 using std::vector;
 class Header
 {
-    string nombre_archivo;
+    QString nombre_archivo;
     vector<Campo*> campos;
     int list_offset;
     int datos_offset;
     int longitud_registro;
 public:
-    Header(string nombre, vector<Campo*> campos);
-    Header(string direccion); // leer archivo
-    string getNombre_archivo() const;
-    void setNombre_archivo(const string &value);
+    Header(QString nombre, vector<Campo*> campos);
+    Header(QString direccion); // leer archivo
+    QString getNombre_archivo() const;
+    void setNombre_archivo(const QString &value);
     vector<Campo*> getCampos() const;
     void setCampos(const vector<Campo*> &value);
     int getList_offset() const;
@@ -25,6 +24,7 @@ public:
     int getDatos_offset() const;
     void setDatos_offset(int value);
     int getLongitud_registro();
+    bool crearArchivo();
 };
 
 #endif // HEADER_H

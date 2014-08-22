@@ -15,10 +15,16 @@ public:
     explicit DialogVer(QString path, QWidget *parent = 0);
     ~DialogVer();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
+    QString path;
     Header *header;
+    QList<int> rrn_tabla;
     Ui::DialogVer *ui;
     void llenarTabla(QString path);
+    bool borrarRegistro(int rrn);
 };
 
 #endif // DIALOGVER_H
