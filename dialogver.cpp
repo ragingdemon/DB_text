@@ -18,6 +18,7 @@ DialogVer::DialogVer(QString path, QWidget *parent) :
     this->path = path;
     header = new Header(path);
     llenarTabla();
+    leerIndex();
 }
 
 DialogVer::~DialogVer()
@@ -48,12 +49,12 @@ void DialogVer::llenarTabla()
     in.seek(header->getDatos_offset());
     int longitud_registro = header->getLongitud_registro();
     int fila = 0;
-    int rrn = 0;
+    //int rrn = 0;
     while (!in.atEnd()) {
         QString registro = in.read(longitud_registro);
         int offset = 0;
         if (registro.at(0) != '*') {
-            rrn_tabla.append(rrn);
+            //rrn_tabla.append(rrn);
             table->insertRow(fila);
             for (unsigned int i = 0; i < campos.size(); ++i) {
                 int incremento = campos.at(i)->getLongitud();
@@ -65,7 +66,7 @@ void DialogVer::llenarTabla()
         }else{
             offset += longitud_registro;
         }
-        rrn++;
+        //rrn++;
     }
     if (archivo.isOpen()) {
         archivo.close();
@@ -78,32 +79,32 @@ bool DialogVer::borrarRegistro(int fila)
     QFile archivo(path);
     if (!archivo.open(QIODevice::ReadWrite | QIODevice::Text))
         return false;
-    QTextStream out(&archivo);
+    QTextStream in_out(&archivo);
     //leer cabeza del availlist
-    out.seek(header->getList_offset());
-    int availlist = out.readLine().toInt();
+    in_out.seek(header->getList_offset());
+    int availlist = in_out.readLine().toInt();
     int rrn = rrn_tabla.at(fila);
     qDebug()<<"cabeza de availlist: "<<availlist;
     qDebug()<<"registro a eliminar: "<<rrn;
     //reescribir cabeza del availlist
-    out.seek(header->getList_offset());
+    in_out.seek(header->getList_offset());
     QString str = QString::number(rrn);
     if (str.size() < 4) {
         while (str.size() < 4) {
             str.append(' ');
         }
     }
-    out<<str;
+    in_out<<str;
     //marcar registro como borrado
-    out.seek(header->getDatos_offset() + rrn * longitud_registro);
+    in_out.seek(header->getDatos_offset() + rrn * longitud_registro);
     str = "*" + QString::number(availlist);
     if (str.size() < 5) {
         while (str.size() < 5) {
             str.append(' ');
         }
     }
-    qDebug()<<"offset del registro a eliminar: "<<out.pos();
-    out<<str;
+    qDebug()<<"offset del registro a eliminar: "<<in_out.pos();
+    in_out<<str;
     rrn_tabla.removeAt(fila);
     archivo.close();
     llenarTabla();
@@ -125,6 +126,20 @@ void DialogVer::leerIndex()
     archivo.close();
 }
 
+void DialogVer::reescribirIndice()
+{
+    QFile archivo(header->getNombre_archivo() + ".libx");
+    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+    QTextStream out(&archivo);
+    QMapIterator<QString, QString> i(index);
+    while (i.hasNext()) {
+        i.next();
+        out << i.key() << "," << i.value() << endl;
+    }
+    archivo.close();
+}
+
 void DialogVer::on_pushButton_clicked()
 {
     QTableWidget* table = ui->tableWidget;
@@ -142,6 +157,6 @@ void DialogVer::on_pushButton_clicked()
 
 void DialogVer::on_le_agregar_clicked()
 {
-    DialogAgregar dialog(path,this);
+    DialogAgregar dialog(path,index,this);
     dialog.exec();
 }

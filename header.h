@@ -25,6 +25,7 @@ public:
     void setDatos_offset(int value);
     int getLongitud_registro();
     bool crearArchivo();
+    int campoLLave();
 };
 
 #endif // HEADER_H

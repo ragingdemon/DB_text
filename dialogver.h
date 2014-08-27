@@ -30,6 +30,7 @@ private:
     void llenarTabla();
     bool borrarRegistro(int rrn);
     void leerIndex();
+    void reescribirIndice();
 };
 
 #endif // DIALOGVER_H

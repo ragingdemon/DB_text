@@ -119,3 +119,13 @@ bool Header::crearArchivo()
     archivo.close();
     return true;
 }
+
+int Header::campoLLave()
+{
+    for (int i = 0; i < campos.size(); ++i) {
+        Campo *campo = campos.at(i);
+        if(campo->getLlave())
+            return i;
+    }
+    return -1;
+}

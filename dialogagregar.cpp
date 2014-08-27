@@ -7,13 +7,17 @@
 #include <QTextStream>
 using std::vector;
 
-DialogAgregar::DialogAgregar(QString path, QWidget *parent) :
+DialogAgregar::DialogAgregar(QString path, QMap<QString,QString> &index, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogAgregar)
 {
     ui->setupUi(this);
     this->path = path;
     header = new Header(path);
+    this->index = index;
+    //identificar la columna llave
+    campoLLave = header->campoLLave();
+    //llenar tabla con line edits para ingresar datos
     QTableWidget* table = ui->tableWidget;
     vector<Campo*> campos = header->getCampos();
     QStringList encabezados;
@@ -66,7 +70,7 @@ void DialogAgregar::on_buttonBox_accepted()
     int availlist = in.readLine().toInt();
     archivo.close();
     if (availlist == -1) {
-        append_registro(registro,availlist);
+        append_registro(registro);
     }else{
         rewrite_registro(registro,availlist);
     }
@@ -93,8 +97,15 @@ QLineEdit* DialogAgregar::crearLine(Campo* campo)
     return newLine;
 }
 
-bool DialogAgregar::append_registro(QString registro, int availlist)
+bool DialogAgregar::append_registro(QString registro)
 {
+    //verificar si la llave ya existe en el indice
+    QString llave = lines.at(campoLLave)->text();
+    if(index.contains(llave)){
+        qDebug()<<"la llave ya existe";
+        return false;
+    }
+    //agregar el registro a la base de datos
     QFile archivo(path);
     if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
         return false;
@@ -102,12 +113,26 @@ bool DialogAgregar::append_registro(QString registro, int availlist)
     int offset = out.pos();
     out<<registro;
     archivo.close();
+    //agregar al indice
+    index.insert(llave,QString::number(offset));
     return true;
 }
 
-bool DialogAgregar::rewrite_registro(QString registro, int availlist)
+bool DialogAgregar::rewrite_registro(QString registro, int &availlist)
 {
-
+    //verificar si la llave ya existe en el indice
+    QString llave = lines.at(campoLLave)->text();
+    if(index.contains(llave)){
+        qDebug()<<"la llave ya existe";
+        return false;
+    }
+    //
+    int offset = header->getDatos_offset() + (availlist * header->getLongitud_registro());
+    QFile archivo(path);
+    if (!archivo.open(QIODevice::ReadWrite| QIODevice::Text))
+        return false;
+    QTextStream out(&archivo);
+    return true;
 }
 
 
