@@ -47,6 +47,7 @@ void dialogNuevo::on_pb_archivo_clicked()
     }
     Header *header = new Header(nombre,campos);
     if (!header->crearArchivo()) {
+        qDebug()<<"Error, no se creó el archivo";
         return;
     }    
     this->close();

@@ -13,7 +13,7 @@ using std::cout;
 Header::Header(QString nombre, vector<Campo*> campos)
     :nombre_archivo(nombre),campos(campos)
 {
-    nombre_archivo.append(".dat");
+    //nombre_archivo.append(".dat");
 }
 
 Header::Header(QString direccion)
@@ -99,7 +99,7 @@ int Header::getLongitud_registro()
 
 bool Header::crearArchivo()
 {
-    QFile archivo(nombre_archivo);
+    QFile archivo(nombre_archivo + ".dat");
     if (!archivo.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
@@ -111,7 +111,11 @@ bool Header::crearArchivo()
         out<<QString::fromStdString(campos.at(i)->toString())<<'\n';
     }
     out<<"longitud de registro,"<<getLongitud_registro()<<'\n';
-    out<<"availlist,-1  "<<'\n';
+    out<<"availlist,-1  "<<'\n';  
+    archivo.close();
+    archivo.setFileName(nombre_archivo + ".libx");
+    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
     archivo.close();
     return true;
 }

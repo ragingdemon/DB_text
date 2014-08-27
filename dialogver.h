@@ -2,6 +2,7 @@
 #define DIALOGVER_H
 
 #include <QDialog>
+#include <QMap>
 #include "header.h"
 namespace Ui {
 class DialogVer;
@@ -23,10 +24,12 @@ private slots:
 private:
     QString path;
     Header *header;
+    QMap<QString,QString> index;
     QList<int> rrn_tabla;
     Ui::DialogVer *ui;
-    void llenarTabla(QString path);
+    void llenarTabla();
     bool borrarRegistro(int rrn);
+    void leerIndex();
 };
 
 #endif // DIALOGVER_H

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+
 #include "header.h"
 #include "campo.h"
 namespace Ui {
@@ -26,7 +27,10 @@ private:
     QString path;
     Header *header;
     Ui::DialogAgregar *ui;
+    QList<QLineEdit*> lines;
     QLineEdit *crearLine(Campo* campo);
+    bool append_registro(QString registro, int availlist);
+    bool rewrite_registro(QString registro, int availlist);
 };
 
 #endif // DIALOGAGREGAR_H

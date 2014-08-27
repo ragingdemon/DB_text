@@ -17,7 +17,7 @@ DialogVer::DialogVer(QString path, QWidget *parent) :
     ui->setupUi(this);
     this->path = path;
     header = new Header(path);
-    llenarTabla(path);
+    llenarTabla();
 }
 
 DialogVer::~DialogVer()
@@ -27,7 +27,7 @@ DialogVer::~DialogVer()
     delete ui;
 }
 
-void DialogVer::llenarTabla(QString path)
+void DialogVer::llenarTabla()
 {
     QTableWidget* table = ui->tableWidget;
     while(table->rowCount() > 0)
@@ -106,8 +106,23 @@ bool DialogVer::borrarRegistro(int fila)
     out<<str;
     rrn_tabla.removeAt(fila);
     archivo.close();
-    llenarTabla(path);
+    llenarTabla();
     return true;
+}
+
+void DialogVer::leerIndex()
+{
+    QFile archivo(header->getNombre_archivo() + ".libx");
+    if (!archivo.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+    QTextStream in(&archivo);
+    while (!in.atEnd()) {
+        QString registro;
+        in>>registro;
+        QStringList split = registro.split(',');
+        index.insert(split.at(0).trimmed(),split.at(1).trimmed());
+    }
+    archivo.close();
 }
 
 void DialogVer::on_pushButton_clicked()
