@@ -7,14 +7,14 @@
 #include <QTextStream>
 using std::vector;
 
-DialogAgregar::DialogAgregar(QString path, QMap<QString,QString> &index, QWidget *parent) :
+DialogAgregar::DialogAgregar(QString path, DialogVer *parent) :
     QDialog(parent),
     ui(new Ui::DialogAgregar)
 {
     ui->setupUi(this);
+    this->parent = parent;
     this->path = path;
-    header = new Header(path);
-    this->index = index;
+    header = parent->header;
     //identificar la columna llave
     campoLLave = header->campoLLave();
     //llenar tabla con line edits para ingresar datos
@@ -101,7 +101,7 @@ bool DialogAgregar::append_registro(QString registro)
 {
     //verificar si la llave ya existe en el indice
     QString llave = lines.at(campoLLave)->text();
-    if(index.contains(llave)){
+    if(parent->index.contains(llave)){
         qDebug()<<"la llave ya existe";
         return false;
     }
@@ -114,7 +114,7 @@ bool DialogAgregar::append_registro(QString registro)
     out<<registro;
     archivo.close();
     //agregar al indice
-    index.insert(llave,QString::number(offset));
+    parent->index.insert(llave,QString::number(offset));
     return true;
 }
 
@@ -122,11 +122,11 @@ bool DialogAgregar::rewrite_registro(QString registro, int &availlist)
 {
     //verificar si la llave ya existe en el indice
     QString llave = lines.at(campoLLave)->text();
-    if(index.contains(llave)){
+    if(parent->index.contains(llave)){
         qDebug()<<"la llave ya existe";
         return false;
     }
-    //
+    //(offset-datos offset)/logresgistro
     int offset = header->getDatos_offset() + (availlist * header->getLongitud_registro());
     QFile archivo(path);
     if (!archivo.open(QIODevice::ReadWrite| QIODevice::Text))

@@ -16,15 +16,16 @@ DialogVer::DialogVer(QString path, QWidget *parent) :
 {
     ui->setupUi(this);
     this->path = path;
-    header = new Header(path);
+    header = new Header(path);    
     llenarTabla();
     leerIndex();
 }
 
 DialogVer::~DialogVer()
 {
+    reescribirIndice();
     if(header)
-        delete header;
+        delete header;    
     delete ui;
 }
 
@@ -121,7 +122,8 @@ void DialogVer::leerIndex()
         QString registro;
         in>>registro;
         QStringList split = registro.split(',');
-        index.insert(split.at(0).trimmed(),split.at(1).trimmed());
+        if(split.size() > 1)
+            index.insert(split.at(0).trimmed(),split.at(1).trimmed());
     }
     archivo.close();
 }
@@ -157,6 +159,6 @@ void DialogVer::on_pushButton_clicked()
 
 void DialogVer::on_le_agregar_clicked()
 {
-    DialogAgregar dialog(path,index,this);
+    DialogAgregar dialog(path,this);
     dialog.exec();
 }

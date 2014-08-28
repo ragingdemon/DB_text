@@ -14,6 +14,8 @@ class DialogVer : public QDialog
 
 public:
     explicit DialogVer(QString path, QWidget *parent = 0);
+    QMap<QString,QString> index;
+    Header *header;
     ~DialogVer();
 
 private slots:
@@ -23,8 +25,6 @@ private slots:
 
 private:
     QString path;
-    Header *header;
-    QMap<QString,QString> index;
     QList<int> rrn_tabla;
     Ui::DialogVer *ui;
     void llenarTabla();

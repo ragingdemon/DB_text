@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
-
+#include "dialogver.h"
 #include "header.h"
 #include "campo.h"
 namespace Ui {
@@ -15,7 +15,7 @@ class DialogAgregar : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogAgregar(QString path,QMap<QString,QString> &index, QWidget *parent = 0);
+    explicit DialogAgregar(QString path, DialogVer *parent = 0);
     ~DialogAgregar();
 
 private slots:
@@ -27,12 +27,12 @@ private:
     int campoLLave;
     QString path;
     Header *header;
+    DialogVer *parent;
     Ui::DialogAgregar *ui;
-    QList<QLineEdit*> lines;
-    QMap<QString,QString> index;
+    QList<QLineEdit*> lines;    
     QLineEdit *crearLine(Campo* campo);
-    bool append_registro(QString registro, int availlist);
-    bool rewrite_registro(QString registro, int availlist);
+    bool append_registro(QString registro);
+    bool rewrite_registro(QString registro, int &availlist);
 };
 
 #endif // DIALOGAGREGAR_H
