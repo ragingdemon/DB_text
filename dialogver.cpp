@@ -16,7 +16,7 @@ DialogVer::DialogVer(QString path, QWidget *parent) :
 {
     ui->setupUi(this);
     this->path = path;
-    header = new Header(path);    
+    header = new Header(path);
     llenarTabla();
     leerIndex();
 }
@@ -25,7 +25,7 @@ DialogVer::~DialogVer()
 {
     reescribirIndice();
     if(header)
-        delete header;    
+        delete header;
     delete ui;
 }
 
@@ -74,7 +74,7 @@ void DialogVer::llenarTabla()
     }
 }
 
-bool DialogVer::borrarRegistro(int key)
+bool DialogVer::borrarRegistro(QString llave)
 {
     int longitud_registro = header->getLongitud_registro();
     QFile archivo(path);
@@ -83,31 +83,30 @@ bool DialogVer::borrarRegistro(int key)
     QTextStream in_out(&archivo);
     //leer cabeza del availlist
     in_out.seek(header->getList_offset());
-    int availlist = in_out.readLine().toInt();
-    int offset = index.value();
+    QString availlist = in_out.readLine();
+    int offset = index.value(llave,"").toInt();
+    if(!offset){
+        qDebug()<<"no se pudo convertir el offset a int";
+        return false;
+    }
+    int rrn = (offset - header->getDatos_offset()) / header->getLongitud_registro();
     qDebug()<<"cabeza de availlist: "<<availlist;
-    qDebug()<<"registro a eliminar: "<<offset;
+    qDebug()<<"registro a eliminar: "<<rrn;
     //reescribir cabeza del availlist
     in_out.seek(header->getList_offset());
-    QString str = QString::number(offset);
-    if (str.size() < 4) {
-        while (str.size() < 4) {
-            str.append(' ');
-        }
+    QString str = QString::number(rrn);
+    while (str.size() < 5) {
+        str.append(' ');
     }
     in_out<<str;
     //marcar registro como borrado
-    in_out.seek(header->getDatos_offset() + offset * longitud_registro);
-    str = "*" + QString::number(availlist);
-    if (str.size() < 5) {
-        while (str.size() < 5) {
-            str.append(' ');
-        }
-    }
+    in_out.seek(offset);
+    str = "*" + availlist;
     qDebug()<<"offset del registro a eliminar: "<<in_out.pos();
     in_out<<str;
-    rrn_tabla.removeAt(fila);
     archivo.close();
+    //eliminar registro del indice
+    index.remove(llave);
     llenarTabla();
     return true;
 }
@@ -147,11 +146,11 @@ void DialogVer::on_pushButton_clicked()
     QTableWidget* table = ui->tableWidget;
     QModelIndexList indexList = table->selectionModel()->selectedIndexes();
     int campo_llave = header->campoLLave();
-    foreach (QModelIndex index, indexList) {
-        table->item(index.row(),index.column())->text();
-        qDebug()<<"row: "<<fila;
-        if (fila < rrn_tabla.size()) {
-            borrarRegistro(fila);
+    if(indexList.size() > 1){
+        QModelIndex indice = indexList.at(0);
+        QString llave = table->item(indice.row(),campo_llave)->text().trimmed();
+        if (index.size() > 0) {
+            borrarRegistro(llave);
         }
     }
 }
@@ -161,4 +160,5 @@ void DialogVer::on_le_agregar_clicked()
 {
     DialogAgregar dialog(path,this);
     dialog.exec();
+    llenarTabla();
 }

@@ -28,7 +28,7 @@ private:
     QList<int> rrn_tabla;
     Ui::DialogVer *ui;
     void llenarTabla();
-    bool borrarRegistro(int rrn);
+    bool borrarRegistro(QString llave);
     void leerIndex();
     void reescribirIndice();
 };
