@@ -1,6 +1,7 @@
 #include "header.h"
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -18,11 +19,44 @@ Header::Header(QString nombre, vector<Campo*> campos)
 
 Header::Header(QString direccion)
 {
+    QFile archivo(direccion);
+        if (archivo.open(QIODevice::ReadOnly | QIODevice::Text)){
+            QTextStream in(&archivo);
+            while (!in.atEnd()) {
+                QString str = in.readLine();
+                qDebug()<<str;
+                qDebug()<<"offset: "<<in.pos();
+                if (str.contains("nombre de archivo")) {
+                    nombre_archivo = str.mid(18);
+                }else if (str.contains("numero de campos")) {
+                    int num_campos = str.mid(17).toInt();
+                    str = in.readLine();
+                    qDebug()<<str;
+                    qDebug()<<"offset: "<<in.pos();
+                    for (int i = 0; i < num_campos; ++i) {
+                        str = in.readLine();
+                        try {
+                            campos.push_back(new Campo(str.toStdString()));
+                        } catch (...) {
+                            qDebug()<<"error";
+                        }
+                    }
+                }else if (str.contains("longitud de registro")) {
+                    list_offset = in.pos() + 10;
+                } else if (str.contains("availlist")) {
+                    datos_offset = in.pos();
+                }
+            }
+        }
+        archivo.close();
+    /*
     fstream archivo;
     archivo.open(direccion.toStdString().c_str());
     if (archivo.is_open()) {
         string str;
         while (getline(archivo,str)) {
+            qDebug()<<QString::fromStdString(str);
+            qDebug()<<"offset: "<<archivo.tellg();
             if(str.find("nombre de archivo") != string::npos){
                 nombre_archivo = QString::fromStdString(str.substr(18));
             }else if(str.find("numero de campos") != string::npos){
@@ -46,6 +80,7 @@ Header::Header(QString direccion)
         }
     }
     archivo.close();
+    */
 }
 
 vector<Campo*> Header::getCampos() const
@@ -111,7 +146,7 @@ bool Header::crearArchivo()
         out<<QString::fromStdString(campos.at(i)->toString())<<'\n';
     }
     out<<"longitud de registro,"<<getLongitud_registro()<<'\n';
-    out<<"availlist,-1  "<<'\n';  
+    out<<"availlist,-1   "<<'\n';
     archivo.close();
     archivo.setFileName(nombre_archivo + ".libx");
     if (!archivo.open(QIODevice::WriteOnly | QIODevice::Text))

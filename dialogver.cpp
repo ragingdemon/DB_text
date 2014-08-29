@@ -74,7 +74,7 @@ void DialogVer::llenarTabla()
     }
 }
 
-bool DialogVer::borrarRegistro(int fila)
+bool DialogVer::borrarRegistro(int key)
 {
     int longitud_registro = header->getLongitud_registro();
     QFile archivo(path);
@@ -84,12 +84,12 @@ bool DialogVer::borrarRegistro(int fila)
     //leer cabeza del availlist
     in_out.seek(header->getList_offset());
     int availlist = in_out.readLine().toInt();
-    int rrn = rrn_tabla.at(fila);
+    int offset = index.value();
     qDebug()<<"cabeza de availlist: "<<availlist;
-    qDebug()<<"registro a eliminar: "<<rrn;
+    qDebug()<<"registro a eliminar: "<<offset;
     //reescribir cabeza del availlist
     in_out.seek(header->getList_offset());
-    QString str = QString::number(rrn);
+    QString str = QString::number(offset);
     if (str.size() < 4) {
         while (str.size() < 4) {
             str.append(' ');
@@ -97,7 +97,7 @@ bool DialogVer::borrarRegistro(int fila)
     }
     in_out<<str;
     //marcar registro como borrado
-    in_out.seek(header->getDatos_offset() + rrn * longitud_registro);
+    in_out.seek(header->getDatos_offset() + offset * longitud_registro);
     str = "*" + QString::number(availlist);
     if (str.size() < 5) {
         while (str.size() < 5) {
@@ -146,9 +146,9 @@ void DialogVer::on_pushButton_clicked()
 {
     QTableWidget* table = ui->tableWidget;
     QModelIndexList indexList = table->selectionModel()->selectedIndexes();
-    int fila;
+    int campo_llave = header->campoLLave();
     foreach (QModelIndex index, indexList) {
-        fila = index.row();
+        table->item(index.row(),index.column())->text();
         qDebug()<<"row: "<<fila;
         if (fila < rrn_tabla.size()) {
             borrarRegistro(fila);

@@ -126,12 +126,25 @@ bool DialogAgregar::rewrite_registro(QString registro, int &availlist)
         qDebug()<<"la llave ya existe";
         return false;
     }
-    //(offset-datos offset)/logresgistro
+    //calcular el offset del registro a escribir
     int offset = header->getDatos_offset() + (availlist * header->getLongitud_registro());
+    // abrir archivo
     QFile archivo(path);
     if (!archivo.open(QIODevice::ReadWrite| QIODevice::Text))
         return false;
-    QTextStream out(&archivo);
+    QTextStream in_out(&archivo);
+    //obtener siguiente elemento del availlist
+    in_out.seek(offset+1);
+    QString rrn = in_out.read(5);
+    //reescribir cabeza del availlist
+    in_out.seek(header->getList_offset());
+    in_out<<rrn;
+    //reescribir regsitro
+    in_out.seek(offset);
+    in_out<<registro;
+    //agregar al indice
+    parent->index.insert(llave,QString::number(offset));
+    archivo.close();
     return true;
 }
 
