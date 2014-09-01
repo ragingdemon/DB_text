@@ -26,6 +26,7 @@ private slots:
 private:
     Ui::dialogNuevo *ui;
     vector<Campo*> campos;
+    bool existe_llave()const;
 };
 
 #endif // DIALOGNUEVO_H

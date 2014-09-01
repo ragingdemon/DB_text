@@ -1,28 +1,27 @@
 #ifndef CAMPO_H
 #define CAMPO_H
-#include <string>
-using std::string;
+#include <QString>
 class Campo
 {
     int campo;
-    string nombre;
-    string tipo;
+    QString nombre;
+    QString tipo;
     int longitud;
     bool llave;
 public:
-    Campo(int campo,string nombre,string tipo,int longitud,bool llave);
-    Campo(string datos);
+    Campo(int campo,QString nombre,QString tipo,int longitud,bool llave);
+    Campo(QString datos);
     int getCampo() const;
     void setCampo(int value);
-    string getNombre() const;
-    void setNombre(const string &value);
-    string getTipo() const;
-    void setTipo(const string &value);
+    QString getNombre() const;
+    void setNombre(const QString &value);
+    QString getTipo() const;
+    void setTipo(const QString &value);
     int getLongitud() const;
     void setLongitud(int value);
     bool getLlave() const;
     void setLlave(bool value);
-    string toString()const;
+    QString toString()const;
 };
 
 #endif // CAMPO_H

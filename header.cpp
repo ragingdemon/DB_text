@@ -36,7 +36,7 @@ Header::Header(QString direccion)
                     for (int i = 0; i < num_campos; ++i) {
                         str = in.readLine();
                         try {
-                            campos.push_back(new Campo(str.toStdString()));
+                            campos.push_back(new Campo(str));
                         } catch (...) {
                             qDebug()<<"error";
                         }
@@ -143,7 +143,7 @@ bool Header::crearArchivo()
     out<<"numero de campos,"<<campos.size()<<'\n';
     out<<"campo,nombre,tipo,long,llave"<<'\n';
     for (unsigned i = 0; i < campos.size(); ++i) {
-        out<<QString::fromStdString(campos.at(i)->toString())<<'\n';
+        out<<campos.at(i)->toString()<<'\n';
     }
     out<<"longitud de registro,"<<getLongitud_registro()<<'\n';
     out<<"availlist,-1   "<<'\n';

@@ -37,7 +37,7 @@ void DialogVer::llenarTabla()
     vector<Campo*> campos = header->getCampos();
     QStringList encabezados;
     for (unsigned int i = 0; i < campos.size(); ++i) {
-        QString str((campos.at(i))->getNombre().c_str());
+        QString str((campos.at(i))->getNombre());
         encabezados.append(str);
     }
     table->setColumnCount(campos.size());

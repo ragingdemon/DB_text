@@ -22,7 +22,7 @@ DialogAgregar::DialogAgregar(QString path, DialogVer *parent) :
     vector<Campo*> campos = header->getCampos();
     QStringList encabezados;
     for (unsigned int i = 0; i < campos.size(); ++i) {
-        QString str((campos.at(i))->getNombre().c_str());
+        QString str((campos.at(i))->getNombre());
         encabezados.append(str);
     }
     table->setColumnCount(campos.size());
@@ -83,7 +83,7 @@ void DialogAgregar::on_buttonBox_rejected()
 
 QLineEdit* DialogAgregar::crearLine(Campo* campo)
 {
-    QString tipo = QString::fromStdString(campo->getTipo());
+    QString tipo = campo->getTipo();
     int longitud = campo->getLongitud();
     QLineEdit *newLine = new QLineEdit;
     QString mask;

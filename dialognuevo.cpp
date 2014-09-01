@@ -13,6 +13,11 @@ dialogNuevo::dialogNuevo(QWidget *parent) :
 
 dialogNuevo::~dialogNuevo()
 {
+    for (unsigned i = 0; i < campos.size(); ++i) {
+        Campo* toDelete = campos.at(i);
+        if(toDelete)
+            delete toDelete;
+    }
     delete ui;
 }
 
@@ -23,14 +28,20 @@ void dialogNuevo::on_pb_campo_clicked()
     QString tipo = ui->comboBox->currentText();
     int longitud = ui->spinBox->value();
     bool llave = ui->checkBox->isChecked();
+    //validar que no exista mas de una llave
+    if(llave)
+        if(existe_llave()){
+            qDebug()<<"Solo se permite una llave";
+            return;
+        }
     try {
-        campos.push_back(new Campo(campo,nombre.toStdString(),tipo.toStdString(),longitud,llave));
+        campos.push_back(new Campo(campo,nombre,tipo,longitud,llave));
     } catch (...) {
-        qDebug()<<"Error al crear campo"<<'\n';
+        qDebug()<<"Error al crear campo";
         return;
     }
     for (unsigned i = 0; i < campos.size(); ++i) {
-        qDebug()<<campos.at(i)->toString().c_str();
+        qDebug()<<campos.at(i);
     }
 }
 
@@ -51,4 +62,14 @@ void dialogNuevo::on_pb_archivo_clicked()
         return;
     }    
     this->close();
+}
+
+bool dialogNuevo::existe_llave() const
+{
+    for (unsigned i = 0; i < campos.size(); ++i) {
+        Campo* campo = campos.at(i);
+        if(campo->getLlave())
+            return true;
+    }
+    return false;
 }

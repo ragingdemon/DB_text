@@ -1,32 +1,25 @@
 #include "campo.h"
-#include <sstream>
-#include <vector>
 #include <stdexcept>
-
-using std::stringstream;
-using std::string;
-using std::vector;
+#include <QStringList>
 using std::invalid_argument;
 
-vector<string> &split(const string &s, char delim, vector<string> &elems);
-vector<string> split(const string &s, char delim);
 
-Campo::Campo(int campo, string nombre, string tipo, int longitud, bool llave)
+Campo::Campo(int campo, QString nombre, QString tipo, int longitud, bool llave)
     : campo(campo),nombre(nombre),tipo(tipo),longitud(longitud),llave(llave)
 {
 
 }
 
-Campo::Campo(string datos)
+Campo::Campo(QString datos)
 {
-    vector<string> tokens = split(datos,',');
+    QStringList tokens = datos.split(',');
     if(tokens.size() < 5)
         throw invalid_argument("datos insuficientes");
-    campo = std::stoi(tokens.at(0));
+    campo = tokens.at(0).toInt();
     nombre = tokens.at(1);
     tipo = tokens.at(2);
-    longitud = std::stoi(tokens.at(3));
-    llave = std::stoi(tokens.at(4));
+    longitud = tokens.at(3).toInt();
+    llave = tokens.at(4).toInt();
 }
 
 int Campo::getCampo() const
@@ -39,22 +32,22 @@ void Campo::setCampo(int value)
     campo = value;
 }
 
-string Campo::getNombre() const
+QString Campo::getNombre() const
 {
     return nombre;
 }
 
-void Campo::setNombre(const string &value)
+void Campo::setNombre(const QString &value)
 {
     nombre = value;
 }
 
-string Campo::getTipo() const
+QString Campo::getTipo() const
 {
     return tipo;
 }
 
-void Campo::setTipo(const string &value)
+void Campo::setTipo(const QString &value)
 {
     tipo = value;
 }
@@ -79,25 +72,8 @@ void Campo::setLlave(bool value)
     llave = value;
 }
 
-string Campo::toString() const
+QString Campo::toString() const
 {
-    stringstream ss;
-    ss<<campo<<','<<nombre<<','<<tipo<<','<<longitud<<','<<llave;
-    return ss.str();
-}
-
-vector<string> &split(const string &s, char delim, vector<string> &elems) {
-    stringstream ss(s);
-    string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-
-
-vector<string> split(const string &s, char delim) {
-    vector<string> elems;
-    split(s, delim, elems);
-    return elems;
+    QString ss = QString::number(campo) + ',' + nombre + ',' + tipo + ',' + QString::number(longitud )+ ',' + QString::number(llave);
+    return ss;
 }
