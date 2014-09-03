@@ -2,7 +2,7 @@
 #include "ui_dialognuevo.h"
 #include "header.h"
 #include <QDebug>
-using std::vector;
+
 
 dialogNuevo::dialogNuevo(QWidget *parent) :
     QDialog(parent),

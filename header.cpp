@@ -2,19 +2,12 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDebug>
-#include <fstream>
-#include <iostream>
-#include <string>
 
-using std::fstream;
-using std::string;
-using std::vector;
-using std::cout;
 
 Header::Header(QString nombre, vector<Campo*> campos)
     :nombre_archivo(nombre),campos(campos)
 {
-    //nombre_archivo.append(".dat");
+
 }
 
 Header::Header(QString direccion)
@@ -45,42 +38,11 @@ Header::Header(QString direccion)
                     list_offset = in.pos() + 10;
                 } else if (str.contains("availlist")) {
                     datos_offset = in.pos();
+                    break;
                 }
             }
         }
-        archivo.close();
-    /*
-    fstream archivo;
-    archivo.open(direccion.toStdString().c_str());
-    if (archivo.is_open()) {
-        string str;
-        while (getline(archivo,str)) {
-            qDebug()<<QString::fromStdString(str);
-            qDebug()<<"offset: "<<archivo.tellg();
-            if(str.find("nombre de archivo") != string::npos){
-                nombre_archivo = QString::fromStdString(str.substr(18));
-            }else if(str.find("numero de campos") != string::npos){
-                int num_campos = std::stoi(str.substr(17));
-                getline(archivo,str);//se salta la linea: campo,nombre,tipo,long,llave
-                for (int var = 0; var < num_campos; ++var) {
-                    getline(archivo,str);
-                    try {
-                        campos.push_back(new Campo(str));
-                    } catch (...) {
-                        cout<<"exception campo"<<'\n';
-                    }
-                }
-            }else if(str.find("longitud de registro") != string::npos){
-                list_offset = archivo.tellg() + 10;
-
-            }else if(str.find("availlist") != string::npos){
-                datos_offset = archivo.tellg();
-                break;
-            }
-        }
-    }
-    archivo.close();
-    */
+        archivo.close();    
 }
 
 vector<Campo*> Header::getCampos() const
@@ -157,7 +119,7 @@ bool Header::crearArchivo()
 
 int Header::campoLLave()
 {
-    for (int i = 0; i < campos.size(); ++i) {
+    for (unsigned i = 0; i < campos.size(); ++i) {
         Campo *campo = campos.at(i);
         if(campo->getLlave())
             return i;

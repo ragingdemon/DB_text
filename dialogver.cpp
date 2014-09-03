@@ -7,7 +7,6 @@
 #include <QTableWidget>
 #include <QInputDialog>
 #include <QDebug>
-#include <vector>
 using std::vector;
 
 DialogVer::DialogVer(QString path, QWidget *parent) :

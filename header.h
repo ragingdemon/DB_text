@@ -3,7 +3,6 @@
 
 #include "campo.h"
 #include <QString>
-#include <vector>
 using std::vector;
 class Header
 {
