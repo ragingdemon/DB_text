@@ -60,20 +60,9 @@ void DialogAgregar::on_buttonBox_accepted()
             registro.append(str);
             qDebug()<<registro;
     }
-    //leer cabeza del availlist
-    //int longitud_registro = header->getLongitud_registro();
-    QFile archivo(path);
-    if (!archivo.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-    QTextStream in(&archivo);
-    in.seek(header->getList_offset());
-    int availlist = in.readLine().toInt();
-    archivo.close();
-    if (availlist == -1) {
-        append_registro(registro);
-    }else{
-        rewrite_registro(registro,availlist);
-    }
+
+    QString llave = lines.at(campoLLave)->text();
+    header->insertar_lineal(llave,registro);
 }
 
 void DialogAgregar::on_buttonBox_rejected()
@@ -96,58 +85,3 @@ QLineEdit* DialogAgregar::crearLine(Campo* campo)
     }
     return newLine;
 }
-
-bool DialogAgregar::append_registro(QString registro)
-{
-    //verificar si la llave ya existe en el indice
-    QString llave = lines.at(campoLLave)->text();
-    if(parent->index.contains(llave)){
-        qDebug()<<"la llave ya existe";
-        return false;
-    }
-    //agregar el registro a la base de datos
-    QFile archivo(path);
-    if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
-        return false;
-    QTextStream out(&archivo);
-    int offset = out.pos();
-    out<<registro;
-    archivo.close();
-    //agregar al indice
-    parent->index.insert(llave,QString::number(offset));
-    return true;
-}
-
-bool DialogAgregar::rewrite_registro(QString registro, int &availlist)
-{
-    //verificar si la llave ya existe en el indice
-    QString llave = lines.at(campoLLave)->text();
-    if(parent->index.contains(llave)){
-        qDebug()<<"la llave ya existe";
-        return false;
-    }
-    //calcular el offset del registro a escribir
-    int offset = header->getDatos_offset() + (availlist * header->getLongitud_registro());
-    // abrir archivo
-    QFile archivo(path);
-    if (!archivo.open(QIODevice::ReadWrite| QIODevice::Text))
-        return false;
-    QTextStream in_out(&archivo);
-    //obtener siguiente elemento del availlist
-    in_out.seek(offset+1);
-    QString rrn = in_out.read(5);
-    //reescribir cabeza del availlist
-    in_out.seek(header->getList_offset());
-    in_out<<rrn;
-    //reescribir regsitro
-    in_out.seek(offset);
-    in_out<<registro;
-    //agregar al indice
-    parent->index.insert(llave,QString::number(offset));
-    archivo.close();
-    return true;
-}
-
-
-
-

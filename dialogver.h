@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QMap>
 #include "header.h"
+#include "indicel.h"
 namespace Ui {
 class DialogVer;
 }
@@ -14,8 +15,8 @@ class DialogVer : public QDialog
 
 public:
     explicit DialogVer(QString path, QWidget *parent = 0);
-    QMap<QString,QString> index;
-    Header *header;
+    Header *header;    
+
     ~DialogVer();
 
 private slots:
@@ -25,12 +26,8 @@ private slots:
 
 private:
     QString path;
-    QList<int> rrn_tabla;
     Ui::DialogVer *ui;
-    void llenarTabla();
-    bool borrarRegistro(QString llave);
-    void leerIndex();
-    void reescribirIndice();
+    void llenarTabla();    
 };
 
 #endif // DIALOGVER_H

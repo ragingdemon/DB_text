@@ -2,7 +2,9 @@
 #define HEADER_H
 
 #include "campo.h"
+#include "indicel.h"
 #include <QString>
+#include <QFile>
 using std::vector;
 class Header
 {
@@ -11,9 +13,13 @@ class Header
     int list_offset;
     int datos_offset;
     int longitud_registro;
+    QFile archivo;
+
 public:
+    IndiceL *indice_linea;
     Header(QString nombre, vector<Campo*> campos);
     Header(QString direccion); // leer archivo
+    ~Header();
     QString getNombre_archivo() const;
     void setNombre_archivo(const QString &value);
     vector<Campo*> getCampos() const;
@@ -25,6 +31,10 @@ public:
     int getLongitud_registro();
     bool crearArchivo();
     int campoLLave();
+    int getAvaillist_head();
+    void setAvailList_head(int availlist);
+    bool insertar_lineal(QString llave, QString registro);
+    bool eliminar_lineal(QString llave);
 };
 
 #endif // HEADER_H

@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     campo.cpp \
     header.cpp \
     dialogver.cpp \
-    dialogagregar.cpp
+    dialogagregar.cpp \
+    indicel.cpp
 
 HEADERS  += mainwindow.h \
     dialognuevo.h \
     campo.h \
     header.h \
     dialogver.h \
-    dialogagregar.h
+    dialogagregar.h \
+    indicel.h
 
 FORMS    += mainwindow.ui \
     dialognuevo.ui \
