@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     header.cpp \
     dialogver.cpp \
     dialogagregar.cpp \
-    indicel.cpp
+    indicel.cpp \
+    llave.cpp \
+    arbolb.cpp
 
 HEADERS  += mainwindow.h \
     dialognuevo.h \
@@ -27,7 +29,9 @@ HEADERS  += mainwindow.h \
     header.h \
     dialogver.h \
     dialogagregar.h \
-    indicel.h
+    indicel.h \
+    llave.h \
+    arbolb.h
 
 FORMS    += mainwindow.ui \
     dialognuevo.ui \
