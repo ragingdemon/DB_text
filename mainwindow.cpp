@@ -5,6 +5,8 @@
 #include "header.h"
 #include <QFileDialog>
 #include <QFile>
+#include "arbolb.h"
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,5 +40,16 @@ void MainWindow::on_pushButton_2_clicked()
         DialogVer dialog(path,this);
         dialog.exec();
     } catch (...) {
+    }
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    ArbolB *arbol = new ArbolB("yreuiwqyr",10,5,6);
+    for (int i = 0; i < 10; ++i) {
+        QString llave = QString::number(i);
+        QString rrn = QString::number(i);
+        Llave *l = new Llave(llave,rrn,5,5);
+        arbol->insertar(l);
     }
 }

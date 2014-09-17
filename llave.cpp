@@ -11,7 +11,12 @@ Llave::Llave(QString llave, int llave_size):
 Llave::Llave(QString llave, QString rrn, int llave_size, int rrn_size):
     llave(llave), rrn(rrn), llave_size(llave_size), rrn_size(rrn_size)
 {
-
+    while (llave.size() < llave_size) {
+        llave.append(' ');
+    }
+    while (rrn.size() < rrn_size) {
+        rrn.append(' ');
+    }
 }
 
 Llave::Llave(QString toSplit, int llave_size, int rrn_size):
