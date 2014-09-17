@@ -16,6 +16,18 @@ Llave *ArbolB::buscar(Llave *l)
     return buscar(l,head);
 }
 
+ArbolB::ArbolB(ArbolB *arbol)
+{
+    this->path = arbol->path;
+    this->parent = arbol->parent;
+    this->head = arbol->head;
+    this->registro_size = arbol->registro_size;
+    this->llave_size = arbol->llave_size;
+    this->rrn_size = arbol->rrn_size;
+    this->orden = arbol->orden;
+    this->capacidad = arbol->capacidad;
+}
+
 Llave *ArbolB::buscar(Llave *l, ArbolB *arbol)
 {
     for (int i = 0; i < llaves.size(); ++i) {
@@ -93,4 +105,13 @@ bool ArbolB::insertar(Llave *l, ArbolB *arbol)
         }
     }
     return false;
+}
+
+bool ArbolB::dividir(Llave *l, ArbolB *arbol)
+{
+    if (head) {
+
+    }else{
+
+    }
 }

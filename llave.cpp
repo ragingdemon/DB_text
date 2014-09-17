@@ -59,7 +59,10 @@ int Llave::rrntoInt() const
 
 bool Llave::operator ==(Llave &l) const
 {
-    return llave == l.llave;
+    int compare = QString::compare(llave,l.llave,Qt::CaseInsensitive);
+    if(compare == 0)
+        return true;
+    return false;
 }
 
 bool Llave::operator ==(Llave *l) const
@@ -67,12 +70,18 @@ bool Llave::operator ==(Llave *l) const
     if (l == nullptr) {
         return false;
     }
-    return llave == l->llave;
+    int compare = QString::compare(llave,l->llave,Qt::CaseInsensitive);
+    if(compare == 0)
+        return true;
+    return false;
 }
 
 bool Llave::operator <(Llave &l) const
 {
-    return llave < l.llave;
+    int compare = QString::compare(llave,l.llave,Qt::CaseInsensitive);
+    if(compare < 0)
+        return true;
+    return false;
 }
 
 bool Llave::operator <(Llave *l) const
@@ -80,12 +89,18 @@ bool Llave::operator <(Llave *l) const
     if (l == nullptr) {
         return false;
     }
-    return llave < l->llave;
+    int compare = QString::compare(llave,l->llave,Qt::CaseInsensitive);
+    if(compare < 0)
+        return true;
+    return false;
 }
 
 bool Llave::operator >(Llave &l) const
 {
-    return llave > l.llave;
+    int compare = QString::compare(llave,l.llave,Qt::CaseInsensitive);
+    if(compare > 0)
+        return true;
+    return false;
 }
 
 bool Llave::operator >(Llave *l) const
@@ -93,5 +108,8 @@ bool Llave::operator >(Llave *l) const
     if (l == nullptr) {
         return false;
     }
-    return llave > l->llave;
+    int compare = QString::compare(llave,l->llave,Qt::CaseInsensitive);
+    if(compare > 0)
+        return true;
+    return false;
 }
