@@ -53,7 +53,7 @@
      <string>Modificar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="pb_cruce">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Cruce</string>
     </property>
    </widget>
   </widget>

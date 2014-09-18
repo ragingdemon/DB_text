@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogCruce</class>
+ <widget class="QDialog" name="DialogCruce">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>502</width>
+    <height>398</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>216</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QPushButton" name="pb_tabla1">
+      <property name="text">
+       <string>Tabla principal</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="le_archivo1"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>382</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QPushButton" name="pb_tabla1_2">
+      <property name="text">
+       <string>Tabla secundaria</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="le_archivo2"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QPushButton" name="pb_llenar_tabla">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>120</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Llenar Tabla</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>150</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>242</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Columna con los datos para la sustitución</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="sb_sustitucion_2"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>40</y>
+     <width>136</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Columna a sustituir</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSpinBox" name="sb_sustitucion"/>
+    </item>
+   </layout>
+  </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget_2</zorder>
+  <zorder>pb_llenar_tabla</zorder>
+  <zorder>tableWidget</zorder>
+  <zorder>layoutWidget_3</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -35,6 +35,8 @@ public:
     void setAvailList_head(int availlist);
     bool insertar_lineal(QString llave, QString registro);
     bool eliminar_lineal(QString llave);
+    QStringList getRegistro(QString llave);
+    QStringList getRegistro(int offset);
 };
 
 #endif // HEADER_H

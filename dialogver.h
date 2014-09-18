@@ -24,6 +24,8 @@ private slots:
 
     void on_le_agregar_clicked();
 
+    void on_pb_buscar_clicked();
+
 private:
     QString path;
     Ui::DialogVer *ui;

@@ -2,6 +2,7 @@
 #include "ui_dialogver.h"
 #include "campo.h"
 #include "dialogagregar.h"
+#include "dialogbuscar.h"
 #include <QFile>
 #include <QTextStream>
 #include <QTableWidget>
@@ -52,7 +53,7 @@ void DialogVer::llenarTabla()
         int offset = 0;
         if (registro.at(0) != '*') {
             table->insertRow(fila);
-            for (unsigned int i = 0; i < campos.size(); ++i) {
+            for (unsigned i = 0; i < campos.size(); ++i) {
                 int incremento = campos.at(i)->getLongitud();
                 QString substring = registro.mid(offset,incremento);
                 table->setItem(fila,i,new QTableWidgetItem(substring.trimmed()));
@@ -90,4 +91,17 @@ void DialogVer::on_le_agregar_clicked()
     DialogAgregar dialog(path,this);
     dialog.exec();
     llenarTabla();
+}
+
+void DialogVer::on_pb_buscar_clicked()
+{
+    QString llave = ui->le_buscar->text();
+    if (llave.isEmpty()) {
+        return;
+    }
+    QStringList registro(header->getRegistro(llave));
+    if(registro.size() == 0)
+        return;
+    DialogBuscar dialog(registro,this);
+    dialog.exec();
 }

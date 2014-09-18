@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     dialogagregar.cpp \
     indicel.cpp \
     llave.cpp \
-    arbolb.cpp
+    arbolb.cpp \
+    dialogbuscar.cpp \
+    dialogcruce.cpp
 
 HEADERS  += mainwindow.h \
     dialognuevo.h \
@@ -31,10 +33,14 @@ HEADERS  += mainwindow.h \
     dialogagregar.h \
     indicel.h \
     llave.h \
-    arbolb.h
+    arbolb.h \
+    dialogbuscar.h \
+    dialogcruce.h
 
 FORMS    += mainwindow.ui \
     dialognuevo.ui \
     dialogver.ui \
-    dialogagregar.ui
+    dialogagregar.ui \
+    dialogbuscar.ui \
+    dialogcruce.ui
 CONFIG += c++11

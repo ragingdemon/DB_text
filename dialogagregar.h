@@ -29,7 +29,7 @@ private:
     Header *header;
     DialogVer *parent;
     Ui::DialogAgregar *ui;
-    QList<QLineEdit*> lines;    
+    QList<QLineEdit*> lines;
     QLineEdit *crearLine(Campo* campo);
     bool append_registro(QString registro);
     bool rewrite_registro(QString registro, int &availlist);

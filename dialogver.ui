@@ -13,42 +13,39 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>100</y>
-     <width>256</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>20</y>
-     <width>91</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Borrar registro</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="le_agregar">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>20</y>
-     <width>80</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>agregar</string>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPushButton" name="le_agregar">
+     <property name="text">
+      <string>agregar</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pushButton">
+     <property name="text">
+      <string>Borrar registro</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pb_buscar">
+       <property name="text">
+        <string>Buscar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="le_buscar"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

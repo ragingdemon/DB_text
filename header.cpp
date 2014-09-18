@@ -14,40 +14,40 @@ Header::Header(QString nombre, vector<Campo*> campos)
 Header::Header(QString direccion)
 {
     archivo.setFileName(direccion);
-        if (archivo.open(QIODevice::ReadOnly | QIODevice::Text)){
-            QTextStream in(&archivo);
-            while (!in.atEnd()) {
-                QString str = in.readLine();
+    if (archivo.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QTextStream in(&archivo);
+        while (!in.atEnd()) {
+            QString str = in.readLine();
+            qDebug()<<str;
+            qDebug()<<"offset: "<<in.pos();
+            if (str.contains("nombre de archivo")) {
+                nombre_archivo = str.mid(18);
+            }else if (str.contains("numero de campos")) {
+                int num_campos = str.mid(17).toInt();
+                str = in.readLine();
                 qDebug()<<str;
                 qDebug()<<"offset: "<<in.pos();
-                if (str.contains("nombre de archivo")) {
-                    nombre_archivo = str.mid(18);
-                }else if (str.contains("numero de campos")) {
-                    int num_campos = str.mid(17).toInt();
+                for (int i = 0; i < num_campos; ++i) {
                     str = in.readLine();
-                    qDebug()<<str;
-                    qDebug()<<"offset: "<<in.pos();
-                    for (int i = 0; i < num_campos; ++i) {
-                        str = in.readLine();
-                        try {
-                            campos.push_back(new Campo(str));
-                        } catch (...) {
-                            qDebug()<<"error";
-                        }
+                    try {
+                        campos.push_back(new Campo(str));
+                    } catch (...) {
+                        qDebug()<<"error";
                     }
-                }else if (str.contains("longitud de registro")) {
-                    longitud_registro = str.mid(21).toInt();
-                    qDebug()<<"el erorr era: "<<QString::number(longitud_registro);
-                    list_offset = in.pos() + 10;
-                } else if (str.contains("availlist")) {
-                    datos_offset = in.pos();
-                    break;
                 }
+            }else if (str.contains("longitud de registro")) {
+                longitud_registro = str.mid(21).toInt();
+                qDebug()<<"el erorr era: "<<QString::number(longitud_registro);
+                list_offset = in.pos() + 10;
+            } else if (str.contains("availlist")) {
+                datos_offset = in.pos();
+                break;
             }
         }
-        archivo.close();
-        indice_linea = new IndiceL(direccion.mid(0,direccion.size()-4));
-        indice_linea->leer_indice();
+    }
+    archivo.close();
+    indice_linea = new IndiceL(direccion.mid(0,direccion.size()-4));
+    indice_linea->leer_indice();
 }
 
 Header::~Header()
@@ -123,7 +123,7 @@ bool Header::crearArchivo()
     }
     out<<"longitud de registro,"<<l<<'\n';
     out<<"availlist,-1   "<<'\n';
-    archivo.close();    
+    archivo.close();
     //crear indice lineal
     archivo.setFileName(nombre_archivo + ".libx");
     if (!archivo.open(QIODevice::ReadWrite | QIODevice::Text))
@@ -180,7 +180,7 @@ bool Header::insertar_lineal(QString llave, QString registro)
     }
     qDebug()<<archivo.fileName();
     qDebug()<<indice_linea->archivo.fileName();
-    int availlist = getAvaillist_head();    
+    int availlist = getAvaillist_head();
     if (availlist == -1) {
         if (!archivo.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
             return false;
@@ -202,7 +202,7 @@ bool Header::insertar_lineal(QString llave, QString registro)
         //agregar al indice
         indice_linea->index.insert(llave,QString::number(offset));
         archivo.close();
-    }    
+    }
     return true;
 }
 
@@ -238,4 +238,47 @@ bool Header::eliminar_lineal(QString llave)
     //eliminar registro del indice
     indice_linea->index.remove(llave);
     return true;
+}
+
+QStringList Header::getRegistro(QString llave)
+{
+    QStringList resultado;
+    int offset = indice_linea->index.value(llave,"0").toInt();
+    if (offset == 0) {
+        return resultado;
+    }
+    if (archivo.open(QIODevice::ReadWrite| QIODevice::Text))
+        return resultado;
+    QTextStream in_out(&archivo);
+    in_out.seek(offset);
+    QString registro = in_out.read(longitud_registro);
+    archivo.close();
+    offset = 0;
+    for (unsigned i = 0; i < campos.size(); ++i) {
+        int incremento = campos.at(i)->getLongitud();
+        resultado.append(registro.mid(offset,incremento));
+        offset += incremento;
+    }
+    return resultado;
+}
+
+QStringList Header::getRegistro(int offset)
+{
+    QStringList resultado;
+    if (offset == 0) {
+        return resultado;
+    }
+    if (archivo.open(QIODevice::ReadWrite| QIODevice::Text))
+        return resultado;
+    QTextStream in_out(&archivo);
+    in_out.seek(offset);
+    QString registro = in_out.read(longitud_registro);
+    archivo.close();
+    offset = 0;
+    for (unsigned i = 0; i < campos.size(); ++i) {
+        int incremento = campos.at(i)->getLongitud();
+        resultado.append(registro.mid(offset,incremento));
+        offset += incremento;
+    }
+    return resultado;
 }

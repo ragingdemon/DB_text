@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "dialognuevo.h"
 #include "dialogver.h"
+#include "dialogcruce.h"
 #include "header.h"
 #include <QFileDialog>
 #include <QFile>
@@ -30,7 +31,7 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_pushButton_2_clicked()
 {
     try {
-        QString path(QFileDialog::getOpenFileName(this,tr("Open Image"), "./", tr("DAT Files (*.dat)")));
+        QString path(QFileDialog::getOpenFileName(this,tr("Abrir Archivo"), "./", tr("DAT Files (*.dat)")));
         QFile archivo(path);
         if (!archivo.exists()){
             return;
@@ -44,20 +45,8 @@ void MainWindow::on_pushButton_2_clicked()
     }
 }
 
-void MainWindow::on_pushButton_4_clicked()
+void MainWindow::on_pb_cruce_clicked()
 {
-    ArbolB *arbol = new ArbolB("yreuiwqyr",10,5,4);
-    /*
-    for (int i = 0; i < 10; ++i) {
-        QString llave = QString::number(i);
-        QString rrn = QString::number(i);
-        Llave *l = new Llave(llave,rrn,5,5);
-        arbol->insertar(l);
-    }
-    */
-    arbol->insertar(new Llave("C",5));
-    arbol->insertar(new Llave("S",5));
-    arbol->insertar(new Llave("D",5));
-    arbol->insertar(new Llave("T",5));
-    arbol->insertar(new Llave("A",5));
+    DialogCruce dialog(this);
+    dialog.exec();
 }
