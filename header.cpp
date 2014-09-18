@@ -247,7 +247,9 @@ QStringList Header::getRegistro(QString llave)
     if (offset == 0) {
         return resultado;
     }
-    if (archivo.open(QIODevice::ReadWrite| QIODevice::Text))
+    if(archivo.isOpen())
+        archivo.close();
+    if (!archivo.open(QIODevice::ReadOnly| QIODevice::Text))
         return resultado;
     QTextStream in_out(&archivo);
     in_out.seek(offset);
@@ -268,7 +270,9 @@ QStringList Header::getRegistro(int offset)
     if (offset == 0) {
         return resultado;
     }
-    if (archivo.open(QIODevice::ReadWrite| QIODevice::Text))
+    if(archivo.isOpen())
+        archivo.close();
+    if (!archivo.open(QIODevice::ReadOnly| QIODevice::Text))
         return resultado;
     QTextStream in_out(&archivo);
     in_out.seek(offset);

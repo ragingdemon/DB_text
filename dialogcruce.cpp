@@ -2,6 +2,7 @@
 #include "ui_dialogcruce.h"
 #include <QFileDialog>
 #include <QFile>
+#include <QDebug>
 
 DialogCruce::DialogCruce(QWidget *parent) :
     QDialog(parent),
@@ -46,8 +47,10 @@ void DialogCruce::on_pb_llenar_tabla_clicked()
         iterator.next();
         table->insertRow(fila);
         QStringList registro_tabla1(principal->getRegistro(iterator.value().toInt()));
+        qDebug()<<registro_tabla1;
 //        int offset_tabla2 = secundario->indice_linea->index.value(registro_tabla1.);
         QStringList registro_tabla2(secundario->getRegistro(registro_tabla1.at(campo_tabla1)));
+        qDebug()<<registro_tabla2;
         for (unsigned columna = 0; columna < campos.size(); ++columna) {
             if (columna == campo_tabla1) {
                 table->setItem(fila,columna,new QTableWidgetItem(registro_tabla2.at(campo_tabla2)));
